@@ -8,3 +8,4 @@ appsettings.json
 /API/skinet.db-wal
 /debug.log
 /client/debug.log
+/node_modules
