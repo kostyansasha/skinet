@@ -3,6 +3,7 @@ using Infrastructure.Data;
 using API.Helpers;
 using API.Middleware;
 using API.Extensions;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,13 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddDbContext<StoreContext>(x =>
     x.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
+{
+    var config = ConfigurationOptions.Parse(configuration.GetConnectionString("Redis"), true);
+    return ConnectionMultiplexer.Connect(config);
+});
+
 builder.Services.AddApplicationServices();
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddCors(opt =>
