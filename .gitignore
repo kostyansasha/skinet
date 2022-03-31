@@ -9,3 +9,4 @@ appsettings.json
 /debug.log
 /client/debug.log
 /node_modules
+*.rdb

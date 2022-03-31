@@ -8,7 +8,7 @@
   color: white;
   text-align: center;
   top: -12px;
-  right: 32px;
+  right: -16px;
 }
 
 a {
@@ -16,6 +16,6 @@ a {
   color: #343a40;
 
   &.active {
-    color: orange; 
+    color: orange;
   }
 }
