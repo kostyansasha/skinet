@@ -4,6 +4,9 @@ using API.Helpers;
 using API.Middleware;
 using API.Extensions;
 using StackExchange.Redis;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
+using Core.Entities.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +20,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<StoreContext>(x =>
     x.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddDbContext<AppIdentityDbContext>(x =>
+{
+    x.UseSqlite(configuration.GetConnectionString("IdentityConnection"));
+});
+
 builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
 {
     var config = ConfigurationOptions.Parse(configuration.GetConnectionString("Redis"), true);
@@ -24,6 +32,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(c =>
 });
 
 builder.Services.AddApplicationServices();
+builder.Services.AddIdentityServices(configuration);
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddCors(opt =>
 {
@@ -44,6 +53,11 @@ using (var scope = app.Services.CreateScope())
         var context = services.GetRequiredService<StoreContext>();
         await context.Database.MigrateAsync();
         await StoreContextSeed.SeedAsync(context, loggerFactory);
+
+        var userManager = services.GetRequiredService<UserManager<AppUser>>();
+        var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+        await identityContext.Database.MigrateAsync();
+        await AppIdentityDbContextSeed.SeedUsersAsync(userManager );
     }
     catch (Exception ex)
     {
@@ -65,6 +79,7 @@ app.UseStaticFiles();
 
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSwaggerDocumentation();
