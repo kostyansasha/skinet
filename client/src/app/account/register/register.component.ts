@@ -51,10 +51,11 @@ export class RegisterComponent implements OnInit {
           if (!control.value) {
             return of(null);
           }
-
+          console.log('validateEmailNotTaken - 1');
           return this.accountService.checkEmailExists(control.value).pipe(
             map(res => {
-              return res ? { emailExists: true } : null;
+              console.log('validateEmailNotTaken - 2')
+              return res ? { emailExists: true } : of(null);
             })
           );
         })
