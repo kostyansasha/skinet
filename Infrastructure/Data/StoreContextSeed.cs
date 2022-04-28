@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core.Entities;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using Core.Entities.OrderAggregate;
 
 namespace Infrastructure.Data
 {
@@ -49,6 +50,20 @@ namespace Infrastructure.Data
                     foreach (var item in products)
                     {
                         context.Products.Add(item);
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+
+                if (!context.DeliveryMethods.Any())
+                {
+                    var dmData = File.ReadAllText("../Infrastructure/Data/SeedData/delivery.json");
+
+                    var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(dmData);
+
+                    foreach (var item in methods)
+                    {
+                        context.DeliveryMethods.Add(item);
                     }
 
                     await context.SaveChangesAsync();
