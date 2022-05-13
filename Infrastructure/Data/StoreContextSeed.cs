@@ -68,6 +68,14 @@ namespace Infrastructure.Data
 
                     await context.SaveChangesAsync();
                 }
+                //else {
+                //    var brands = context.DeliveryMethods.ToList();
+                //    foreach(var brand in brands)
+                //    {
+                //        context.DeliveryMethods.Remove(brand);
+                //    }
+                //    await context.SaveChangesAsync();
+                //}
             }
             catch (Exception ex)
             {
