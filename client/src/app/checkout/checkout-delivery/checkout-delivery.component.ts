@@ -19,6 +19,13 @@ export class CheckoutDeliveryComponent implements OnInit {
     this.checkoutService.getDeliveryMethods().subscribe({
       next: (dm => {
         this.deliveryMethods = dm;
+
+        if (this.deliveryMethods.length > 0) {
+          const value = this.deliveryMethods[0];
+
+          this.checkoutForm.get('deliveryForm')!.get('deliveryMethod')!.setValue(value.id.toString());
+          this.setShippingPrice(value);
+        }
       }),
       error: (err => {
         console.log(err);

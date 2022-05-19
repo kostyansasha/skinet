@@ -1,8 +1,10 @@
-<div class="container mt-4">
-  <app-basket-summary [isBasket]="false"></app-basket-summary>
+<div class="row mt-4">
+  <app-basket-summary *ngIf="(basket$ | async)"
+                      [items]="(basket$ | async)!.items">
+  </app-basket-summary>
 </div>
 
-<div class="float-none d-flex justify-content-between flex-lg-row mb-5">
+<div class="float-none d-flex justify-content-between flex-lg-row mb-3">
   <button class="btn btn-outline-primary" cdkStepperPrevious>
     <i class="fa fa-angle-left me-1"></i>Back to Delivery
   </button>
