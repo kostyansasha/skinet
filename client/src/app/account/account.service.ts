@@ -72,6 +72,9 @@ export class AccountService {
   }
 
   updateUserAddress(address: IAddress) {
+
+    //put do not add the body???
+
     return this.http.put<IAddress>(this.baseUrl + 'account/address', address);
   }
 

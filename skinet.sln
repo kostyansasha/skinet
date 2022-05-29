@@ -9,27 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{92E11590-06D1-4219-A828-4D4B4B9C43B9}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "client", "client\", "{34122AC6-93BE-4E51-AEE4-F21EE30243B1}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_53919"
-		Debug.AspNetCompiler.PhysicalPath = "client\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53919\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_53919"
-		Release.AspNetCompiler.PhysicalPath = "client\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53919\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "53919"
-		SlnRelativePath = "client\"
-	EndProjectSection
-EndProject
+
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A820C609-170B-41A9-9DFA-EF755D100049}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml

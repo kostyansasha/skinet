@@ -11,7 +11,7 @@ import { IProduct } from '../shared/models/product';
 })
 export class BasketService {
   baseUrl = environment.apiUrl;
-  shipping = 0;
+  shipping: number = 0;
 
   private basketSource = new BehaviorSubject<IBasket>(null as any);
   basket$ = this.basketSource.asObservable();
@@ -21,9 +21,23 @@ export class BasketService {
 
   constructor(private http: HttpClient) { }
 
+  createPaymentIntent() {
+    return this.http.post<IBasket>(this.baseUrl + 'payments/' + this.getCurrentBasketValue().id, {})
+      .pipe(
+        map((basket: IBasket) => {
+          this.basketSource.next(basket);
+        })
+      );
+  }
+
   setShippingPrice(deliveryMethod: IDeliveryMethod) {
     this.shipping = deliveryMethod.price;
+    const basket = this.getCurrentBasketValue();
+    basket.deliveryMethodId = deliveryMethod.id;
+    basket.shippingPrice = deliveryMethod.price;
+
     this.calculateTotals();
+    this.setBasket(basket);
   }
 
   getBasket(id: string) {
@@ -31,6 +45,11 @@ export class BasketService {
       .pipe(
         map((basket: IBasket) => {
           this.basketSource.next(basket);
+
+          if (basket.shippingPrice !== undefined) {
+            this.shipping = basket.shippingPrice;
+          }
+
           this.calculateTotals();
         })
       );
@@ -40,6 +59,11 @@ export class BasketService {
     return this.http.post<IBasket>(this.baseUrl + 'basket', basket).subscribe({
       next: ((response: IBasket) => {
         this.basketSource.next(response);
+
+        if (basket.shippingPrice !== undefined) {
+          this.shipping = basket.shippingPrice;
+        }
+
         this.calculateTotals();
       }),
       error: (err => { console.log(err); })
@@ -107,14 +131,20 @@ export class BasketService {
   }
 
   deleteBasket(basket: IBasket) {
+
+    // it worked, delete func problem?
+
     return this.http.delete(this.baseUrl + 'basket?id=' + basket.id).subscribe({
-      next: (response => {
+      next: response => {
         this.basketSource.next(null as any);
         this.basketTotalSource.next(null as any);
         localStorage.removeItem('basket_id');
-      }),
-      error: (err => { console.log(err); })
+      },
+      error: err => {
+        console.log(err);
+      }
     });
+
   }
 
   private addOrUpdateItem(items: IBasketItem[], itemToAdd: IBasketItem, quantity: number): IBasketItem[] {
