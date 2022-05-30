@@ -8,6 +8,8 @@ using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Core.Entities.Identity;
 
+var AllowSpecificOrigins = "CorsPolicy";
+
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationManager configuration = builder.Configuration;
@@ -36,9 +38,11 @@ builder.Services.AddIdentityServices(configuration);
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddCors(opt =>
 {
-    opt.AddPolicy("CorsPolicy", policy =>
+    opt.AddPolicy(AllowSpecificOrigins, policy =>
     {
-        policy.AllowAnyHeader().AllowAnyHeader().WithOrigins("https://localhost:4200");
+        policy.AllowAnyHeader().AllowAnyHeader()
+            .WithOrigins("https://localhost:4200")
+            .WithMethods("PUT", "DELETE", "GET", "POST");
     });
 });
 
@@ -77,7 +81,8 @@ app.UseStatusCodePagesWithReExecute("/errors/{0}");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseCors("CorsPolicy");
+app.UseCors(AllowSpecificOrigins);
+
 
 app.UseAuthentication();
 app.UseAuthorization();
