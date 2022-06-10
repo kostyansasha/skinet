@@ -1,8 +1,8 @@
 <div class="d-flex justify-content-center mt-5">
   <div class="col-3" text-center>
 
-    <main [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <form>
+    <main>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <h1 class="h3 mb-3 fw-normal">Login</h1>
 
         <app-text-input formControlName="email" [label]="'Email Address'"></app-text-input>

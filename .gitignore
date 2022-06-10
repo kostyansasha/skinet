@@ -4,11 +4,14 @@ appsettings.json
 *.db
 .vscode
 .vs
-/API/skinet.db-shm
-/API/skinet.db-wal
+/API/*.db-shm
+/API/*.db-wal
 /debug.log
 /client/debug.log
 /node_modules
 *.rdb
 *.exe
 /Diff_stuff
+/API/wwwroot/*
+/publish
+*.binlog
